@@ -23,7 +23,7 @@ app.use('/api/', limiter);
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.com'] 
+    ? ['https://tech-first.vercel.app', 'https://www.tech-first.vercel.app'] 
     : ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
@@ -53,6 +53,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/contact', require('./routes/contact'));
+app.use('/api/comments', require('./routes/comments'));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -64,7 +66,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
     message: 'API endpoint not found' 
@@ -87,6 +89,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🔗 API URL: http://localhost:${PORT}/api`);
+  console.log(`🔗 API URL: ${process.env.NODE_ENV === 'production' ? 'https://tech-first.onrender.com/api' : `http://localhost:${PORT}/api`}`);
 });
-
